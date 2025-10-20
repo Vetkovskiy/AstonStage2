@@ -3,9 +3,8 @@ package org.module1;
 
 import java.util.Objects;
 
-public class SimpleHashMap<K, V> {
+public class SimpleHashMap<K, V> implements SimpleMap<K, V> {
     private static final int DEFAULT_CAPACITY = 16;
-
     private static final float LOAD_FACTOR = 0.75f;
 
     private static class Node<K, V> {
@@ -52,6 +51,7 @@ public class SimpleHashMap<K, V> {
     /**
      * Основной метод добавления/обновления
      */
+    @Override
     public V put(K key, V value) {
         int hash = hash(key);
         int index = indexFor(hash, table.length);
@@ -86,6 +86,7 @@ public class SimpleHashMap<K, V> {
     /**
      * Получение значения по ключу
      */
+    @Override
     public V get(Object key) {
         int hash = hash(key);
         int index = indexFor(hash, table.length);
@@ -102,6 +103,7 @@ public class SimpleHashMap<K, V> {
     /**
      * Удаление элемента
      */
+    @Override
     public V remove(Object key) {
         int hash = hash(key);
         int index = indexFor(hash, table.length);
@@ -151,14 +153,17 @@ public class SimpleHashMap<K, V> {
         }
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public boolean containsKey(Object key) {
         return get(key) != null || (get(key) == null && containsNullValue(key));
     }
