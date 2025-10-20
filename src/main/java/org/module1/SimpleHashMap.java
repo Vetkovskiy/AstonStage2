@@ -1,8 +1,12 @@
 package org.module1;
 
-import java.util.*;
+
+import java.util.Objects;
 
 public class SimpleHashMap<K, V> {
+    private static final int DEFAULT_CAPACITY = 16;
+
+    private static final float LOAD_FACTOR = 0.75f;
 
     private static class Node<K, V> {
         final K key;
@@ -16,10 +20,8 @@ public class SimpleHashMap<K, V> {
             this.value = value;
             this.next = next;
         }
-    }
 
-    private static final int DEFAULT_CAPACITY = 16;
-    private static final float LOAD_FACTOR = 0.75f;
+    }
 
     private Node<K, V>[] table;
     private int size;
@@ -59,12 +61,14 @@ public class SimpleHashMap<K, V> {
             if (node.hash == hash && Objects.equals(key, node.key)) {
                 V oldValue = node.value;
                 node.value = value;
+
                 return oldValue;
             }
         }
 
         addNode(hash, key, value, index);
         return null;
+
     }
 
     /**
@@ -88,6 +92,7 @@ public class SimpleHashMap<K, V> {
 
         for (Node<K, V> node = table[index]; node != null; node = node.next) {
             if (node.hash == hash && Objects.equals(key, node.key)) {
+
                 return node.value;
             }
         }
@@ -112,6 +117,7 @@ public class SimpleHashMap<K, V> {
                     prev.next = node.next;
                 }
                 size--;
+
                 return node.value;
             }
             prev = node;
@@ -162,6 +168,7 @@ public class SimpleHashMap<K, V> {
         int index = indexFor(hash, table.length);
         for (Node<K, V> node = table[index]; node != null; node = node.next) {
             if (node.hash == hash && Objects.equals(key, node.key)) {
+
                 return true;
             }
         }
